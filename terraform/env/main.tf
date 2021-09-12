@@ -17,3 +17,14 @@ module "tg" {
   vpc_id = module.vpc.vpc_id
   lb     = module.alb.lb
 }
+
+module "ecs" {
+  source   = "../modules/ecs"
+  app_name = "example-app"
+  subnets = [
+    module.vpc.example-a-private-subnet_id,
+    module.vpc.example-c-private-subnet_id,
+  ]
+  tg_arn   = module.tg.arn
+  lb_sg_id = module.alb.lb_sg.id
+}
